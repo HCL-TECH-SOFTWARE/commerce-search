@@ -96,7 +96,7 @@ We have used following components to achieve the voice search
 
 **React Webcam Barcode Scanner** - Capture the barcode from live Image
 
-**Note**
+**Note** <BR />
 •	Supported Browser details for this barcode/qrcode-scanner library can be found at https://www.npmjs.com/package/react-qr-barcode-scanner
 
 **Steps to include the Barcode search in your project:**<br/>
