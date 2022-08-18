@@ -90,16 +90,14 @@ The library **react-webcam** used for taking pictures doesn't support in IOS chr
 
 **Prerequisites:** HCL Commerce V9.1.x / HCL Commerce React Storefront SDK
 
-**It Provide the capability to search HCL Commerce Catalog using barcode recognition on React Stores.**
+**It provides the capability to search HCL Commerce Catalog using barcode recognition on React Stores.**
 
 We have used following components to achieve the voice search
 
 **React Webcam Barcode Scanner** - Capture the barcode from live Image
 
 **Note**
-•	The Barcode Scanner currently supports only Code128, EAN and UPC-A. <br/>
-•	The library “react-webcam-barcode-scanner “used for scanning barcode does not support the IOS chrome as this library uses HTML5 Media API “getUserMedia” which is not supported by chrome in IOS. Hence, the barcode scan icon would not be displayed for the iOS chrome.<br/>
-•	Supported Browser are Windows (Chrome, Firefox), Mac (Chrome, Safari, Firefox), Android (Chrome) and iOS(Safari)<br/>
+•	Supported Browser details for this barcode/qrcode-scanner library can be found at https://www.npmjs.com/package/react-qr-barcode-scanner
 
 **Steps to include the Barcode search in your project:**<br/>
 1. You need to install the react-webcam-barcode-scanner in your project as a dependency.<br/>
