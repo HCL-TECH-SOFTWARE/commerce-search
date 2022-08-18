@@ -16,7 +16,7 @@ npm install @iconify/icons-mdi <br/>
 npm install @iconify/react <br/>
 npm install react-audio-analyser <br/>
 npm install react-device-detect <br/>
-npm install react-webcam-barcode-scanner <br/>
+npm install react-qr-barcode-scanner <br/>
 npm install react-responsive-modal <br/>
 
 ### Voice-Search-POC
@@ -103,7 +103,7 @@ We have used following components to achieve the voice search
 
 **Steps to include the Barcode search in your project:**<br/>
 1. You need to install the react-webcam-barcode-scanner in your project as a dependency.<br/>
-   `npm install react-webcam-barcode-scanner –save`
+   `npm install react-qr-barcode-scanner –save`
    
     Once installation is done. Verify the entry  in your package.json file.
     
