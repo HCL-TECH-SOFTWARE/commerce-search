@@ -2,7 +2,7 @@
 
 /**
 *==================================================
-Copyright [2021] [HCL Technologies]
+Copyright [2021] [HCL America, Inc.]
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,9 +21,16 @@ import Axios, { AxiosPromise, AxiosRequestConfig } from "axios";
 
 const VOICE_URL =
   "https://us-central1-commerce-product.cloudfunctions.net/app1/voice-transcribe";
-const IMAGE_URL =
-  "https://us-central1-commerce-product.cloudfunctions.net/app1/image-search-Emerald";
+let IMAGE_URL;
+ 
+const AppName = process.env.REACT_APP_STORENAME;
 
+if (AppName === "Emerald") {
+  IMAGE_URL = "https://us-central1-commerce-product.cloudfunctions.net/app1/image-search-Emerald";
+} else {
+  IMAGE_URL = "https://us-central1-commerce-product.cloudfunctions.net/app1/image-search-Sapphire";
+}
+console.log("appname",AppName)
 const voiceImageTranscibeService = {
   getVoiceTranscribeText(audioBytes, channelCount): AxiosPromise<any> {
     const requestOptions: AxiosRequestConfig = Object.assign({
@@ -33,6 +40,7 @@ const voiceImageTranscibeService = {
     });
     return Axios(requestOptions);
   },
+  
   getImageTranscibetext(imageBytes): AxiosPromise<any> {
     const requestOptions: AxiosRequestConfig = Object.assign({
       data: { imageBytes },

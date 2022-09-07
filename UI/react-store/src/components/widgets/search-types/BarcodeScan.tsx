@@ -2,7 +2,7 @@
 
 /**
 *==================================================
-Copyright [2021] [HCL Technologies]
+Copyright [2021] [HCL America, Inc.]
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import { Icon } from "@iconify/react";
 import barcodeScan from "@iconify/icons-mdi/barcode-scan";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import BarcodeScannerComponent from "react-webcam-barcode-scanner";
+import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import { isChrome, isIOS, isMobile } from "react-device-detect";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";

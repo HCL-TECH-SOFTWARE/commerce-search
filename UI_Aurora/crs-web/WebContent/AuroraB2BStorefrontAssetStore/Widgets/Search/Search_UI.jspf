@@ -1,0 +1,104 @@
+<%--
+	=================================================================
+	Copyright [2021] [HCL America, Inc.]
+	=================================================================
+--%>
+
+<script>
+$(document).ready(function() {
+    SearchJS.init();
+    SearchJS.setAutoSuggestURL("${SearchAutoSuggestServletURL}");
+    document.forms["searchBox"].action = getAbsoluteURL() + "${searchView}";
+});
+var staticContent = [];
+var staticContentHeaders = [];
+</script>
+
+<!-- Search Addons -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+  <script type="text/javascript" src="${jspStoreImgDir}javascript/BarcodeScanner.js"></script>
+  <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+<script type="text/javascript" src="${jspStoreImgDir}javascript/voiceSearch.js"></script>
+ <!-- Search Addons -->
+<script type="text/javascript" src="${jspStoreImgDir}javascript/imageSearch.js"></script>
+
+
+<fmt:message bundle="${storeText}" key="SEARCH_CATALOG" var="SEARCH_CATALOG"/>
+<a id="searchButton" href="#" role="button" <c:choose><c:when test="${_worklightHybridApp}">onclick="javascript:NativeSearchJS.startSearchActivity();"</c:when><c:otherwise>data-toggle="searchBar"</c:otherwise></c:choose> aria-label="${SEARCH_CATALOG}" title="${SEARCH_CATALOG}" ><span id="searchButton_ACCE_Label" class="spanacce"><fmt:message bundle="${storeText}" key="SEARCH_CATALOG"/></span></a>
+
+<div id="searchBar" data-parent="header" role="search">
+    <c:if test="${_worklightHybridApp eq 'true'}">
+    <a id="worklightSearchButton" href="#" role="button" onclick="javascript:NativeSearchJS.startSearchActivity();"><span id="worklightSearchButtonLabel">${SEARCH_CATALOG}</span></a>
+    </c:if>
+    <form id="searchBox" name="CatalogSearchForm" method="get" action="${env_contextAndServletPath}/${searchView}">
+        <input name="categoryId" id="categoryId" type="hidden"/>
+        <input name="storeId" value="${storeId}" type="hidden"/>
+        <input name="catalogId" value="${catalogId}" type="hidden"/>
+        <input name="langId" value="${langId}" type="hidden"/>
+        <input name="sType" value="SimpleSearch" type="hidden"/>
+        <input name="resultCatEntryType" value="2" type="hidden"/>
+        <input name="showResultsPage" value="true" type="hidden"/>
+        <input name="searchSource" value="Q" type="hidden"/>
+        <input name="pageView" value="${env.defaultPageView}" type="hidden"/>
+		<input name="pageGroup" value="Search" type="hidden"/>
+        <input name="beginIndex" value="0" type="hidden"/>
+        <input name="pageSize" value="${empty pageSize ? 12 : pageSize}" type="hidden"/>
+
+        <div id="searchTermWrapper"><label id="searchFormLabel" for="SimpleSearchForm_SearchTerm">${SEARCH_CATALOG}</label><input id="SimpleSearchForm_SearchTerm" type="text" name="searchTerm" placeholder="${SEARCH_CATALOG}" autocomplete="off" onkeyup="handleTextDirection(this);" oncut="handleTextDirection(this);" onpaste="handleTextDirection(this);"/></div>
+        <!-- Start SearchDropdownWidget -->
+        <div id="searchDropdown">
+            <div id="autoSuggest_Result_div">
+                <div id="widget_search_dropdown">
+                    <!-- Main Content Area -->
+                    <div id="AutoSuggestDiv" role="list" aria-required="true" onmouseover="SearchJS.autoSuggestHover = true;" onmouseout="SearchJS.autoSuggestHover = false; document.getElementById('SimpleSearchForm_SearchTerm').focus();">
+                        <ul><li><span id="autoSuggestDynamic_Result_div_ACCE_Label" class="spanacce"><fmt:message bundle="${storeText}" key="SEARCH_AUTO_SUGGEST_ACCE_REGION" /></span>
+                        <div wcType="RefreshArea" declareFunction="SearchJS.declareAutoSuggestRefreshArea()" widgetId="autoSuggestDisplay_Widget" id="autoSuggestDynamic_Result_div" refreshurl="${SearchAutoSuggestServletURL}" role="list" aria-live="polite" aria-atomic="true" aria-relevant="all" aria-labelledby="autoSuggestDynamic_Result_div_ACCE_Label">
+                        <%-- Div to show the suggested keywords --%>
+                        </div></li></ul>
+                        <ul><li><div id="autoSuggestStatic_1" role="listitem"></div></li></ul>
+                        <ul><li><div id="autoSuggestStatic_2" role="listitem"></div></li></ul>
+                        <ul><li><div id="autoSuggestStatic_3" role="listitem"></div></li></ul>
+                        <ul><li><div id="autoSuggestHistory" role="listitem"></div></li></ul>
+                        <ul><li id="autoSuggestAdvancedSearch" class="heading"> <a href="${AdvancedSearchDisplayURL}" onclick="SearchJS.gotoAdvancedSearch('${AdvancedSearchDisplayURL}');return false;" id="advancedSearch" ><div role="listitem"><fmt:message bundle="${storeText}" key="TITLE_ADVANCED_SEARCH"/></div></a></li></ul>
+                    </div>
+                    <!-- End content Section -->
+                </div>
+            </div>
+        </div>
+        <!-- End SearchDropdownWidget -->
+        <!-- Refresh area to retrieve cached suggestions -->
+        <span id="autoSuggestCachedSuggestions_div_ACCE_Label" class="spanacce"><fmt:message bundle="${storeText}" key="SEARCH_AUTO_SUGGEST_CACHED_ACCE_REGION" /></span>
+        <div wcType="RefreshArea" declareFunction="SearchJS.declareAutoSuggestCachedSuggestionRefreshArea()" widgetId="AutoSuggestCachedSuggestions" id="autoSuggestCachedSuggestions_div" refreshurl="${CachedSuggestionsURL}" role="region" aria-live="polite" aria-atomic="true" aria-relevant="all" aria-labelledby="autoSuggestCachedSuggestions_div_ACCE_Label"></div>
+        <a id="searchFilterButton" href="#" role="button" aria-haspopup="true" data-toggle="searchFilterMenu"><fmt:message bundle="${storeText}" key="SEARCH_ALL_DEPARTMENTS"/></a>
+        <div id="searchFilterMenu" class="basicMenu" data-parent="searchBar">
+            <ul>
+                <li><a href="#" data-value="" class="menuLink" tabindex="-1"><fmt:message bundle="${storeText}" key="SEARCH_ALL_DEPARTMENTS"/></a></li>
+                <c:forEach var="department" items="${newcatalog.catalogGroupView}">
+                    <li><a href="#" data-value="${department.uniqueID}" class="menuLink" tabindex="-1"><c:out value="${department.name}"/></a></li>
+                </c:forEach>
+            </ul>
+        </div>
+        <a href="#" class="submitButton" role="button" aria-label="${SEARCH_CATALOG}" title="${SEARCH_CATALOG}"><span id="submitButton_ACCE_Label" class="spanacce">${SEARCH_CATALOG}</span></a>
+
+      <!-- Search Addons -->
+      
+        <a href="javascript:void(0)" onclick="scanner.openBarcodeDialog()" id="myBtn" class="submitButton1" role="button" aria-label="barcode-search" title="barcode-search" style="display: inline-block;width: 20px;height: 20px;position: relative;top: 7px;right: 8px;">
+             <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="20px" height="24px" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" style="transform: rotate(360deg);">
+             <path d="M4 6h2v12H4V6m3 0h1v12H7V6m2 0h3v12H9V6m4 0h1v12h-1V6m3 0h2v12h-2V6m3 0h1v12h-1V6M2 4v4H0V4a2 2 0 0 1 2-2h4v2H2m20-2a2 2 0 0 1 2 2v4h-2V4h-4V2h4M2 16v4h4v2H2a2 2 0 0 1-2-2v-4h2m20 4v-4h2v4a2 2 0 0 1-2 2h-4v-2h4z" fill="currentColor"></path>
+             </svg>
+        </a>
+        <a href="javascript:void(0)" onclick="openVoiceDialog()" id="myBtn" class="submitButton1" role="button" aria-label="voice-search" title="voice-search" style="display: inline-block;width: 20px;height: 20px;position: relative;top: 5px;right: 7px;">
+                   <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="22px" height="24px" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" style="transform: rotate(360deg);"><path d="M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3m7 9c0 3.53-2.61 6.44-6 6.93V21h-2v-3.07c-3.39-.49-6-3.4-6-6.93h2a5 5 0 0 0 5 5a5 5 0 0 0 5-5h2z" fill="currentColor"></path></svg>
+             </a>
+      <!-- Search Addons -->
+
+         <a href="javascript:void(0)" onclick="openImageDialog()" id="myBtn" class="submitButton1" role="button" aria-label="image-search" title="image-search" style="display: inline-block;width: 20px;height: 20px;position: relative;top: 7px;right: 7px;">
+           <svg xmlns="http://www.w3.org/2000/svg" focusable="false" width="24px" height="24px" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" style="transform: rotate(360deg);">
+		     <path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2m8 3a5 5 0 0 0-5 5a5 5 0 0 0 5 5a5 5 0 0 0 5-5a5 5 0 0 0-5-5m0 2a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3z" fill="currentColor"></path>
+		   </svg>
+         </a>
+
+    </form>
+</div>
+
+
