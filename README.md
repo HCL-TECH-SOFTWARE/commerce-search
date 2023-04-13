@@ -21,7 +21,7 @@ npm install react-responsive-modal <br/>
 
 ### Voice-Search-POC
 
-**Prerequisites:** HCL Commerce V9.1.x / HCL Commerce React Storefront SDK
+**Prerequisites:** HCL Commerce V9.1.x / HCL Commerce React Storefront SDK. Tested uptill 9.1.11 release.
 
 We have used following components to achieve the voice search
 **React Audio Analyser** - Used to record audio. 
